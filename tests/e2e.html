@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>E2E</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <!-- chrome completo da app (extraído de index.html) -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="brand-chip">
+        <svg viewBox="0 0 24 24" class="brand-icon" aria-hidden="true"><path fill="currentColor" d="M12 2 4 5v6c0 5.25 3.4 10.74 8 12 4.6-1.26 8-6.75 8-12V5l-8-3Zm0 10.9h6c-.53 3.65-2.87 7.23-6 8.44V12.9H6V6.3l6-2.25v6.85Z"/></svg>
+        <span>URNA ELETRÔNICA UE2020</span>
+      </div>
+      <span class="brand-sub">Justiça Eleitoral • República Federativa do Brasil</span>
+    </div>
+    <div class="topbar-controls">
+      <button id="btnMute" class="ctl" type="button" title="Alternar áudio da urna">
+        <svg viewBox="0 0 24 24" class="ctl-icon" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3Zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12Z"/></svg>
+        <span id="btnMuteLabel">Som</span>
+      </button>
+      <button id="btnReset" class="ctl" type="button" title="Reiniciar Simulação">
+        <svg viewBox="0 0 24 24" class="ctl-icon" aria-hidden="true"><path fill="currentColor" d="M17.65 6.35A7.96 7.96 0 0 0 12 4a8 8 0 1 0 7.73 10h-2.08A6 6 0 1 1 12 6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35Z"/></svg>
+        <span>Reiniciar</span>
+      </button>
+      <button id="btnResults" class="ctl" type="button" title="Resultados (senha)">
+        <svg viewBox="0 0 24 24" class="ctl-icon" aria-hidden="true"><path fill="currentColor" d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2ZM7 7h10v2H7V7Zm0 4h10v2H7v-2Zm0 4h6v2H7v-2Z"/></svg>
+        <span>Resultados</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- URNA MACHINE (1000 x 750 frame) -->
+  <main class="machine" aria-label="Simulador de Urna Eletrônica">
+    <div class="machine-frame">
+
+      <!-- SCREEN: columns 1-5 -->
+      <section class="screen" aria-live="polite">
+        <!-- header banner -->
+        <div class="screen-banner">
+          <span id="bannerLabel">SEU VOTO VAI PARA</span>
+          <span class="banner-step" id="stepBadge">ETAPA 1/5</span>
+        </div>
+
+        <!-- voting body -->
+        <div class="screen-body" id="votingBody">
+          <div class="screen-left">
+            <h2 class="step-title" id="stepTitle">DEPUTADO FEDERAL</h2>
+
+            <div class="number-row">
+              <span class="number-label">Número:</span>
+              <div class="digit-boxes" id="digitBoxes"></div>
+            </div>
+
+            <div class="details" id="detailsBox">
+              <p class="detail-line" id="dName"><span class="detail-k">Nome:</span><span class="detail-v" id="vName"></span></p>
+              <p class="detail-line" id="dParty"><span class="detail-k">Partido:</span><span class="detail-v" id="vParty"></span></p>
+              <p class="detail-line" id="dVice"><span class="detail-k" id="kVice">Vice:</span><span class="detail-v" id="vVice"></span></p>
+            </div>
+
+            <div class="status-msg" id="statusMsg" hidden>
+              <p class="status-warn" id="warnText">NÚMERO ERRADO</p>
+              <p class="status-big" id="bigText">VOTO NULO</p>
+            </div>
+
+            <div class="blank-msg" id="blankMsg" hidden>
+              <h3 class="blank-title">VOTO EM BRANCO</h3>
+            </div>
+          </div>
+
+          <div class="photo-box" id="photoBox" hidden>
+            <img id="candidatePhoto" alt="" class="photo-img">
+            <span class="photo-caption" id="photoCaption"></span>
+          </div>
+        </div>
+
+        <!-- footer notice -->
+        <div class="screen-footer">
+          <p class="footer-k">Aperte a tecla:</p>
+          <p class="footer-line"><span class="k-green">VERDE</span> para CONFIRMAR este voto</p>
+          <p class="footer-line"><span class="k-orange">LARANJA</span> para RECORRIGIR este voto</p>
+        </div>
+
+        <!-- FIM overlay -->
+        <div class="fim-overlay" id="fimOverlay" hidden>
+          <h1 class="fim-text">FIM</h1>
+          <div class="fim-stamp">
+            <svg viewBox="0 0 24 24" class="fim-check" aria-hidden="true"><path fill="currentColor" d="m9 16.17-4.88-4.88L2.7 12.7 9 19l12-12-1.41-1.41L9 16.17Z"/></svg>
+            VOTO GRAVADO
+          </div>
+        </div>
+
+        <!-- RESULTS overlay (admin) -->
+        <div class="results-overlay" id="resultsOverlay" hidden>
+          <h2 class="results-title">RESULTADOS</h2>
+          <div class="results-table-wrap">
+            <table class="results-table">
+              <thead><tr><th>Cargo</th><th>#</th><th>Candidato</th><th>Votos</th></tr></thead>
+              <tbody id="resultsBody"></tbody>
+              <tfoot><tr class="results-total"><td colspan="3">TOTAL</td><td id="resultsTotal">0</td></tr></tfoot>
+            </table>
+          </div>
+          <div class="results-actions">
+            <button id="btnExport" class="ctl ctl-dark" type="button">EXPORTAR CSV</button>
+            <button id="btnNewSession" class="ctl ctl-dark" type="button">NOVA SESSÃO</button>
+            <button id="btnCloseResults" class="ctl ctl-dark" type="button">VOLTAR</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- KEYPAD: columns 6-8 -->
+      <aside class="keypad" aria-label="Teclado da urna">
+        <div class="keypad-brand">
+          <span>JUSTIÇA ELEITORAL</span>
+        </div>
+
+        <div class="keys-numeric" id="keysNumeric">
+          <!-- 1-9 -->
+          <button class="key num" data-num="1" type="button"><span>1</span><span class="bump" hidden></span></button>
+          <button class="key num" data-num="2" type="button"><span>2</span></button>
+          <button class="key num" data-num="3" type="button"><span>3</span></button>
+          <button class="key num" data-num="4" type="button"><span>4</span></button>
+          <button class="key num" data-num="5" type="button"><span>5</span><span class="bump" id="brailleBump"></span></button>
+          <button class="key num" data-num="6" type="button"><span>6</span></button>
+          <button class="key num" data-num="7" type="button"><span>7</span></button>
+          <button class="key num" data-num="8" type="button"><span>8</span></button>
+          <button class="key num" data-num="9" type="button"><span>9</span></button>
+          <!-- 0 centered: col 2 -->
+          <button class="key num zero" data-num="0" type="button"><span>0</span></button>
+        </div>
+
+        <div class="keys-actions" id="keysActions">
+          <button class="key act branco" id="btnBranco" type="button">BRANCO</button>
+          <button class="key act corrige" id="btnCorrige" type="button">CORRIGE</button>
+          <button class="key act confirma" id="btnConfirma" type="button">CONFIRMA</button>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- FOOTER: test codes -->
+  <footer class="testcodes" id="testCodes">
+    <div class="testcodes-head">
+      <svg viewBox="0 0 24 24" class="ctl-icon" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>
+      <span>Códigos de Candidatos para Teste de Simulação:</span>
+    </div>
+    <div class="testcodes-grid" id="testCodesGrid"></div>
+  </footer>
+
+  <!-- PASSWORD MODAL -->
+  <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card">
+      <h3 id="modalTitle">Área Administrativa</h3>
+      <p>Digite a senha para acessar os resultados</p>
+      <input type="password" id="pwdInput" autocomplete="off" aria-label="Senha administrativa">
+      <div class="modal-actions">
+        <button id="btnCancel" class="ctl ctl-dark" type="button">CANCELAR</button>
+        <button id="btnSubmitPwd" class="ctl ctl-green" type="button">ACESSAR</button>
+      </div>
+      <p class="modal-error" id="pwdError" hidden>Senha incorreta</p>
+    </div>
+  </div>
+
+  <!-- módulos em ordem de dependência (cada um anexa em window.Urna) -->
+  
+  <!-- módulos + main.js (auto-init) -->
+  <!-- módulos em ordem de dependência (cada um anexa em window.Urna) -->
+  <script src="../js/config.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/audio.js"></script>
+  <script src="../js/data.js"></script>
+  <script src="../js/state.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="../js/views.js"></script>
+  <script src="../js/actions.js"></script>
+  <script src="../js/admin.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    /**
+     * E2E smoke: vota em todas as categorias via cliques reais de keypad,
+     * depois confere estado final, apuração e resultado no overlay.
+     * Reporta em document.title (OK n/n | FAIL n) + DOM.
+     */
+    window.__errs = [];
+    window.onerror = (m, s, l) => { window.__errs.push(m + '@' + l); };
+
+    const results = [];
+    function test(name, fn) {
+      try { fn(); results.push({ name, ok: true }); }
+      catch (e) { results.push({ name, ok: false, error: String(e && e.message || e) }); }
+    }
+    function assert(cond, msg) { if (!cond) throw new Error(msg || 'assert failed'); }
+
+    function clickNum(n) {
+      document.querySelector('.key.num[data-num="' + n + '"]')
+        .dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    }
+    function clickConfirma() {
+      document.getElementById('btnConfirma').click();
+    }
+
+    (function poll() {
+      if (!window.Urna || !Urna.state.positions.length) return void requestAnimationFrame(poll);
+      try {
+        const st = Urna.state;
+        const total = st.positions.length;
+
+        // vota um código válido de cada categoria (primeiro código de cada mapa)
+        st.positions.forEach((pos, i) => {
+          assert(st.stepIndex === i, 'estava na etapa ' + st.stepIndex + ', esperado ' + i);
+          const code = Object.keys(pos.candidates)[0];
+          code.split('').forEach(d => clickNum(parseInt(d, 10)));
+          assert(Urna.select.isComplete(st), 'código completo na etapa ' + i);
+          assert(!!Urna.select.currentCandidate(st), 'candidate resolvido na etapa ' + i);
+          clickConfirma();
+        });
+
+        test('todas as ' + total + ' categorias votadas', () => {
+          assert(st.votes.length === total, 'votes.length=' + st.votes.length);
+          assert(st.isFinished === true, 'isFinished após última confirmação');
+        });
+
+        test('FIM overlay visível', () => {
+          assert(document.getElementById('fimOverlay').hidden === false, 'fimOverlay deveria estar visível');
+        });
+
+        test('cada voto apontou para a categoria certa', () => {
+          st.votes.forEach((v, i) => {
+            assert(v.stepIndex === i, 'vote[' + i + '].stepIndex=' + v.stepIndex);
+            assert(v.voteType === 'candidate', 'vote[' + i + '].voteType=' + v.voteType);
+          });
+        });
+
+        test('persistência: votos salvos no localStorage', () => {
+          const saved = JSON.parse(localStorage.getItem(Urna.config.storageKey) || '[]');
+          assert(saved.length === total, 'localStorage tem ' + saved.length + ' votos');
+        });
+
+        test('apuração: 1 voto por categoria no primeiro código', () => {
+          Urna.views.renderResults();
+          const rows = document.querySelectorAll('#resultsBody tr').length;
+          // rows = sum(candidates) + BRANCO + NULO por categoria
+          const expected = st.positions.reduce((n, p) => n + Object.keys(p.candidates).length + 2, 0);
+          assert(rows === expected, 'linhas da tabela: ' + rows + ' vs ' + expected);
+          assert(document.getElementById('resultsTotal').textContent === String(total), 'total=' + document.getElementById('resultsTotal').textContent);
+        });
+
+        test('resetUrna volta ao passo 0 limpo', () => {
+          Urna.actions.resetUrna();
+          assert(st.stepIndex === 0 && st.digits.length === 0 && !st.isFinished, 'estado resetado');
+          assert(document.getElementById('fimOverlay').hidden === true, 'FIM escondido');
+        });
+
+        test('BRANCO registra voto em branco (última categoria)', () => {
+          document.getElementById('btnBranco').click();
+          assert(st.isBranco === true, 'isBranco ativo');
+          document.getElementById('btnConfirma').click();
+          assert(st.votes[st.votes.length - 1].voteType === 'blank', 'último voto = blank');
+          // volta ao estado inicial para não sujar próximas execuções
+          localStorage.removeItem(Urna.config.storageKey);
+        });
+
+      } catch (e) {
+        results.push({ name: '(falha no driver E2E)', ok: false, error: String(e) });
+      }
+
+      const pass = results.filter(r => r.ok).length;
+      const fail = results.filter(r => !r.ok);
+      const lines = results.map(r => (r.ok ? 'PASS  ' : 'FAIL  ') + r.name + (r.ok ? '' : ' — ' + r.error));
+      lines.push('');
+      lines.push((pass + fail.length ? pass + ' passed, ' + fail.length + ' failed' : 'no tests') +
+        (window.__errs.length ? '  | JS errors: ' + window.__errs.join('; ') : '  | no JS errors'));
+      const pre = document.createElement('pre');
+      pre.id = 'e2e-report';
+      pre.style.cssText = 'position:fixed;top:8px;left:8px;background:#fff;color:#000;font:12px monospace;z-index:999;padding:10px;border:2px solid #000;white-space:pre-wrap;max-width:700px';
+      pre.textContent = lines.join('\n');
+      document.body.appendChild(pre);
+      document.title = fail.length === 0 ? 'OK ' + pass + '/' + results.length : 'FAIL ' + fail.length + '/' + results.length;
+    })();
+  </script>
+</body>
+</html>

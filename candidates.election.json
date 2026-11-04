@@ -1,0 +1,112 @@
+{
+  "positions": [
+    {
+      "id": "federal",
+      "title": "DEPUTADO FEDERAL",
+      "digits": 4,
+      "candidates": {
+        "1010": {
+          "name": "AURA SILVA",
+          "party": "PDS (10)",
+          "photo": "photos/election/federal-1.jpg"
+        },
+        "2020": {
+          "name": "MARCOS OLIVEIRA",
+          "party": "PRT (20)",
+          "photo": "photos/election/federal-2.jpg"
+        },
+        "3030": {
+          "name": "HELENA ROCHA",
+          "party": "PDS (10)",
+          "photo": "photos/election/federal-3.jpg"
+        }
+      }
+    },
+    {
+      "id": "estadual",
+      "title": "DEPUTADO ESTADUAL",
+      "digits": 5,
+      "candidates": {
+        "10100": {
+          "name": "CARLOS EDUARDO",
+          "party": "PDS (10)",
+          "photo": "photos/election/estadual-1.jpg"
+        },
+        "20200": {
+          "name": "JULIANA PAES",
+          "party": "PRT (20)",
+          "photo": "photos/election/estadual-2.jpg"
+        }
+      }
+    },
+    {
+      "id": "senador",
+      "title": "SENADOR",
+      "digits": 3,
+      "candidates": {
+        "101": {
+          "name": "ROBERTO FREIRE",
+          "party": "PDS (10)",
+          "suplente": "Marta Suplicy",
+          "photo": "photos/election/senador-1.jpg"
+        },
+        "202": {
+          "name": "BEATRIZ LIMA",
+          "party": "PRT (20)",
+          "suplente": "João Doria",
+          "photo": "photos/election/senador-2.jpg"
+        }
+      }
+    },
+    {
+      "id": "governador",
+      "title": "GOVERNADOR",
+      "digits": 2,
+      "candidates": {
+        "10": {
+          "name": "SANTOS DUMONT",
+          "party": "PDS (10)",
+          "vice": "Priscila Costa",
+          "photo": "photos/election/governador-1.jpg"
+        },
+        "20": {
+          "name": "FERNANDA MONTENEGRO",
+          "party": "PRT (20)",
+          "vice": "Lázaro Ramos",
+          "photo": "photos/election/governador-2.jpg"
+        }
+      }
+    },
+    {
+      "id": "presidente",
+      "title": "PRESIDENTE DA REPÚBLICA",
+      "digits": 2,
+      "candidates": {
+        "10": {
+          "name": "MACHADO DE ASSIS",
+          "party": "PDS (10)",
+          "vice": "Clarice Lispector",
+          "photo": "photos/election/presidente-1.jpg"
+        },
+        "20": {
+          "name": "TARSILA DO AMARAL",
+          "party": "PRT (20)",
+          "vice": "Oswald de Andrade",
+          "photo": "photos/election/presidente-2.jpg"
+        }
+      }
+    }
+  ],
+  "blankVote": {
+    "label": "VOTO EM BRANCO"
+  },
+  "nullVote": {
+    "label": "VOTO NULO"
+  },
+  "labels": {
+    "banner": "SEU VOTO VAI PARA",
+    "vice": "Vice",
+    "suplente": "Suplente"
+  },
+  "adminPassword": "festa2025"
+}

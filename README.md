@@ -95,11 +95,32 @@ The header **Resultados** button opens the password prompt
 
 ```
 urna-eletronica/
-├── index.html       # App shell (header, machine, footer, modal)
-├── styles.css       # Hardware palette, 8-col frame, keys, overlays
-├── app.js           # State machine, audio synth, admin, persistence
-├── candidates.json  # Positions + candidates config
-└── photos/          # 300x400 placeholder JPEGs (3:4)
+├── index.html              # App shell (header, machine, footer, modal)
+├── styles.css              # Hardware palette, 8-col frame, keys, overlays
+├── js/                     # Módulos (ordem de dependência via <script>)
+│   ├── config.js           # CONFIG + DEFAULT_DATA
+│   ├── storage.js          # localStorage (único ponto de acesso)
+│   ├── audio.js            # Web Audio: beeps + FIM chime, mute
+│   ├── data.js             # normalizePositions + loadData (validação)
+│   ├── state.js            # Estado + seletores puros (testáveis)
+│   ├── ui.js               # Cache de elementos DOM
+│   ├── views.js            # render / FIM / resultados / test codes
+│   ├── actions.js          # Fluxo de votação
+│   ├── admin.js            # Senha, apuração, CSV, nova sessão
+│   └── main.js             # init + bindEvents (conhece todos)
+├── candidates.json         # Config ativa (festa)
+├── candidates.election.json# Exemplo de eleição (?config= troca)
+├── photos/
+│   ├── party/              # placeholders da config ativa
+│   └── election/           # placeholders do exemplo
+└── tests/                  # unit + E2E (Firefox headless), ver tests/README.md
+```
+
+### Trocar de cenário sem editar arquivos
+
+```
+index.html                                  -> candidates.json (festa)
+index.html?config=candidates.election.json  -> exemplo de eleição
 ```
 
 ## Screens

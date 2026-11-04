@@ -5,9 +5,21 @@
       "title": "MAIS BONITO",
       "digits": 2,
       "candidates": {
-        "10": { "name": "PARTICIPANTE UM", "party": "GRUPO A", "photo": "photos/pg1.jpg" },
-        "20": { "name": "PARTICIPANTE DOIS", "party": "GRUPO B", "photo": "photos/pg2.jpg" },
-        "30": { "name": "PARTICIPANTE TRÊS", "party": "GRUPO C", "photo": "photos/pg3.jpg" }
+        "10": {
+          "name": "PARTICIPANTE UM",
+          "party": "GRUPO A",
+          "photo": "photos/party/geral-1.jpg"
+        },
+        "20": {
+          "name": "PARTICIPANTE DOIS",
+          "party": "GRUPO B",
+          "photo": "photos/party/geral-2.jpg"
+        },
+        "30": {
+          "name": "PARTICIPANTE TRÊS",
+          "party": "GRUPO C",
+          "photo": "photos/party/geral-3.jpg"
+        }
       }
     },
     {
@@ -15,9 +27,21 @@
       "title": "MAIS EXÓTICO",
       "digits": 2,
       "candidates": {
-        "11": { "name": "PARTICIPANTE UM", "party": "GRUPO A", "photo": "photos/pe1.jpg" },
-        "21": { "name": "PARTICIPANTE DOIS", "party": "GRUPO B", "photo": "photos/pe2.jpg" },
-        "31": { "name": "PARTICIPANTE TRÊS", "party": "GRUPO C", "photo": "photos/pe3.jpg" }
+        "11": {
+          "name": "PARTICIPANTE UM",
+          "party": "GRUPO A",
+          "photo": "photos/party/exotico-1.jpg"
+        },
+        "21": {
+          "name": "PARTICIPANTE DOIS",
+          "party": "GRUPO B",
+          "photo": "photos/party/exotico-2.jpg"
+        },
+        "31": {
+          "name": "PARTICIPANTE TRÊS",
+          "party": "GRUPO C",
+          "photo": "photos/party/exotico-3.jpg"
+        }
       }
     },
     {
@@ -25,13 +49,25 @@
       "title": "MAIS ASSUSTADOR",
       "digits": 2,
       "candidates": {
-        "66": { "name": "PARTICIPANTE UM", "party": "GRUPO A", "photo": "photos/pa1.jpg" },
-        "77": { "name": "PARTICIPANTE DOIS", "party": "GRUPO B", "photo": "photos/pa2.jpg" }
+        "66": {
+          "name": "PARTICIPANTE UM",
+          "party": "GRUPO A",
+          "photo": "photos/party/assustador-1.jpg"
+        },
+        "77": {
+          "name": "PARTICIPANTE DOIS",
+          "party": "GRUPO B",
+          "photo": "photos/party/assustador-2.jpg"
+        }
       }
     }
   ],
-  "blankVote": { "label": "VOTO EM BRANCO" },
-  "nullVote": { "label": "VOTO NULO" },
+  "blankVote": {
+    "label": "VOTO EM BRANCO"
+  },
+  "nullVote": {
+    "label": "VOTO NULO"
+  },
   "labels": {
     "banner": "SEU VOTO VAI PARA",
     "vice": "Vice",
