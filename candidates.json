@@ -1,0 +1,41 @@
+{
+  "positions": [
+    {
+      "id": "geral",
+      "title": "MAIS BONITO",
+      "digits": 2,
+      "candidates": {
+        "10": { "name": "PARTICIPANTE UM", "party": "GRUPO A", "photo": "photos/pg1.jpg" },
+        "20": { "name": "PARTICIPANTE DOIS", "party": "GRUPO B", "photo": "photos/pg2.jpg" },
+        "30": { "name": "PARTICIPANTE TRÊS", "party": "GRUPO C", "photo": "photos/pg3.jpg" }
+      }
+    },
+    {
+      "id": "mais-exotico",
+      "title": "MAIS EXÓTICO",
+      "digits": 2,
+      "candidates": {
+        "11": { "name": "PARTICIPANTE UM", "party": "GRUPO A", "photo": "photos/pe1.jpg" },
+        "21": { "name": "PARTICIPANTE DOIS", "party": "GRUPO B", "photo": "photos/pe2.jpg" },
+        "31": { "name": "PARTICIPANTE TRÊS", "party": "GRUPO C", "photo": "photos/pe3.jpg" }
+      }
+    },
+    {
+      "id": "mais-assustador",
+      "title": "MAIS ASSUSTADOR",
+      "digits": 2,
+      "candidates": {
+        "66": { "name": "PARTICIPANTE UM", "party": "GRUPO A", "photo": "photos/pa1.jpg" },
+        "77": { "name": "PARTICIPANTE DOIS", "party": "GRUPO B", "photo": "photos/pa2.jpg" }
+      }
+    }
+  ],
+  "blankVote": { "label": "VOTO EM BRANCO" },
+  "nullVote": { "label": "VOTO NULO" },
+  "labels": {
+    "banner": "SEU VOTO VAI PARA",
+    "vice": "Vice",
+    "suplente": "Suplente"
+  },
+  "adminPassword": "festa2025"
+}
