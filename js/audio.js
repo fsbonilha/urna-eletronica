@@ -7,6 +7,7 @@
 
   let audioCtx = null;
   let muted = false;
+  const mp3Confirma = new Audio('sounds/confirma.mp3');
 
   function getAudioContext() {
     if (!audioCtx) {
@@ -59,8 +60,18 @@
     } catch (e) { console.warn('Chime error', e); }
   }
 
+  function playSomConfirma() {
+  if (muted) return;
+  try {
+    mp3Confirma.currentTime = 0; 
+    mp3Confirma.play();
+  } catch (e) {
+    console.warn('Erro ao tocar MP3', e);
+  }
+}
+
   function setMuted(value) { muted = value; }
   function isMuted() { return muted; }
 
-  Urna.audio = { playBeep, playFimChime, setMuted, isMuted, unlock: getAudioContext };
+  Urna.audio = { playBeep, playFimChime, setMuted, isMuted, unlock: getAudioContext, playSomConfirma };
 })(window.Urna = window.Urna || {});
