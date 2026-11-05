@@ -55,7 +55,7 @@
     if (!step) return;
     if (!(st.isBranco || isComplete(st))) return; // must be complete or branco
 
-    Urna.audio.playBeep();
+    Urna.audio.playSomConfirma();
 
     if (st.isBranco) {
       recordVote('blank', '', st.blankLabel);
